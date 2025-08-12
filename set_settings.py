@@ -6,10 +6,11 @@ import shutil
 
 def get_settings_path():
     system = platform.system()
+
     if system == "Windows":
-        return Path(os.getenv("APPDATA")) / "Code" / "User" / "settings.json"
+        path = Path(os.getenv("APPDATA")) / "Code" / "User" / "settings.json"
     elif system == "Darwin":  # macOS
-        return (
+        path = (
             Path.home()
             / "Library"
             / "Application Support"
@@ -18,7 +19,15 @@ def get_settings_path():
             / "settings.json"
         )
     else:  # Linux
-        return Path.home() / ".config" / "Code" / "User" / "settings.json"
+        path = Path.home() / ".config" / "Code" / "User" / "settings.json"
+
+    # Se não encontrar, cria .vscode no projeto
+    if not path.exists():
+        vscode_dir = Path.cwd() / ".vscode"
+        vscode_dir.mkdir(exist_ok=True)
+        path = vscode_dir / "settings.json"
+
+    return path
 
 
 # Caminhos
@@ -27,15 +36,13 @@ settings_txt_path = Path("settings.txt")
 backup_path = Path("previousSettings.txt")
 
 # Verificações
-if not settings_path.exists():
-    raise FileNotFoundError(f"Arquivo settings.json não encontrado em: {settings_path}")
-
 if not settings_txt_path.exists():
     raise FileNotFoundError(f"Arquivo settings.txt não encontrado na pasta do script.")
 
-# Backup do settings.json atual
-shutil.copy(settings_path, backup_path)
-print(f"\nBackup criado em: {backup_path}")
+# Backup do settings.json atual (se existir)
+if settings_path.exists():
+    shutil.copy(settings_path, backup_path)
+    print(f"\nBackup criado em: {backup_path}")
 
 # Substitui o conteúdo do settings.json pelo do settings.txt
 with open(settings_txt_path, "r", encoding="utf-8") as f:
