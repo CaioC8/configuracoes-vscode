@@ -2,9 +2,15 @@
 
 ## Como usar
 
+- Execute:
+
+```bash
+git clone https://github.com/CaioC8/configuracoes-vscode.git
+```
+
 ### Instalar Extensões
 
-- Crie um arquivo **"extensions.txt"** com as extensoes que você quer instalar.
+- Crie um novo ou altere o arquivo **"extensions.txt"** e coloque as extensoes que você quer instalar.
 
 > Para conseguir o **extensions.txt** mais facilmente, execute no terminal do VScode:
 >
@@ -20,7 +26,7 @@ python install_extensions.py
 
 ### Definir settings.json
 
-- Crie um arquivo **"settings.txt"** com as configurações no formato de json válido.
+- Crie um novo ou altere o arquivo **"settings.txt"** e coloque as configurações no formato de json válido.
 
 - Com o **"settings.txt"** pronto, execute no terminal:
 
@@ -28,7 +34,7 @@ python install_extensions.py
 python set_settings.py
 ```
 
-> Quando executado, além de trocar o conteúdo de settings.json, será criado um arquivo **"previousSettings.txt"** com o conteúdo antigo de settings.json, servindo como um backup.
+> O set_settings.py vai criar uma pasta **".vscode"** com o arquivo de settings. Para saber como funciona a criação, consulte o código e faça alterações se necessário.
 
 ## Pré-requisitos
 
