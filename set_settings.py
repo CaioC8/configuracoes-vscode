@@ -21,7 +21,7 @@ def get_project_root(n: int) -> Path:
 
 
 def create_vscode_settings():
-    project_root = get_project_root(2)  # Mude o valor conforme necessário
+    project_root = get_project_root(1)  # Mude o valor conforme necessário
     vscode_dir = project_root / ".vscode"
     vscode_dir.mkdir(exist_ok=True)
 
