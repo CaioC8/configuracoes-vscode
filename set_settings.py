@@ -1,54 +1,29 @@
-import os
-import platform
 from pathlib import Path
-import shutil
 
 
-def get_settings_path():
-    system = platform.system()
-
-    if system == "Windows":
-        path = Path(os.getenv("APPDATA")) / "Code" / "User" / "settings.json"
-    elif system == "Darwin":  # macOS
-        path = (
-            Path.home()
-            / "Library"
-            / "Application Support"
-            / "Code"
-            / "User"
-            / "settings.json"
-        )
-    else:  # Linux
-        path = Path.home() / ".config" / "Code" / "User" / "settings.json"
-
-    # Se não encontrar, cria .vscode no projeto
-    if not path.exists():
-        vscode_dir = Path.cwd() / ".vscode"
-        vscode_dir.mkdir(exist_ok=True)
-        path = vscode_dir / "settings.json"
-
-    return path
+def get_project_root() -> Path:
+    return Path(__file__).resolve().parent.parent
 
 
-# Caminhos
-settings_path = get_settings_path()
-settings_txt_path = Path("settings.txt")
-backup_path = Path("previousSettings.txt")
+def create_vscode_settings():
+    project_root = get_project_root()
+    vscode_dir = project_root / ".vscode"
+    vscode_dir.mkdir(exist_ok=True)
 
-# Verificações
-if not settings_txt_path.exists():
-    raise FileNotFoundError(f"Arquivo settings.txt não encontrado na pasta do script.")
+    settings_txt_path = Path(__file__).parent / "settings.txt"
+    settings_json_path = vscode_dir / "settings.json"
 
-# Backup do settings.json atual (se existir)
-if settings_path.exists():
-    shutil.copy(settings_path, backup_path)
-    print(f"\nBackup criado em: {backup_path}")
+    if not settings_txt_path.exists():
+        raise FileNotFoundError(f"Arquivo {settings_txt_path} não encontrado.")
 
-# Substitui o conteúdo do settings.json pelo do settings.txt
-with open(settings_txt_path, "r", encoding="utf-8") as f:
-    new_settings_content = f.read()
+    with open(settings_txt_path, "r", encoding="utf-8") as f:
+        new_settings_content = f.read()
 
-with open(settings_path, "w", encoding="utf-8") as f:
-    f.write(new_settings_content)
+    with open(settings_json_path, "w", encoding="utf-8") as f:
+        f.write(new_settings_content)
 
-print(f"\nConfigurações do VS Code atualizadas com sucesso usando {settings_txt_path}")
+    print(f"\nArquivo criado em: {settings_json_path}")
+
+
+if __name__ == "__main__":
+    create_vscode_settings()
