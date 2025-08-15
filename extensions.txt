@@ -1,6 +1,4 @@
-burkeholland.simple-react-snippets
 danielpinto8zz6.c-cpp-compile-run
-dsznajder.es7-react-js-snippets
 eamodio.gitlens
 esbenp.prettier-vscode
 josevseb.google-java-format-for-vs-code
