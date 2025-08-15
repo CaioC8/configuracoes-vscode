@@ -17,7 +17,7 @@ def get_project_root(n: int) -> Path:
         n=1 → /home/user/projeto
         n=2 → /home/user
     """
-    return Path(__file__).resolve().parent[n]
+    return Path(__file__).resolve().parents[n]
 
 
 def create_vscode_settings():
